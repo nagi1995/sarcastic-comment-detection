@@ -8,7 +8,6 @@ Created on Tue Nov  9 15:18:21 2021
 # Reference: https://github.com/krishnaik06/Heroku-Demo/blob/master/app.py
 #%%
 
-import numpy as np
 import re
 import pickle
 import tensorflow as tf
@@ -17,10 +16,21 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras import Model, Input
 from tensorflow.keras.layers import *
 from flask import Flask, request, jsonify, render_template
+import requests
+import os
 
 #%%
 
 app = Flask(__name__)
+
+#%%
+
+if os.path.isexists("glove_vectors"):
+    # Reference: https://www.tutorialspoint.com/downloading-files-from-web-using-python
+    
+    url = "https://github.com/nagi1995/sarcastic-comment-detection/blob/main/glove_vectors?raw=true"
+    r = requests.get(url, allow_redirects = True)
+    open('glove_vectors', 'wb').write(r.content)
 
 #%%
 t = pickle.load(open("tokenizer.pkl", 'rb'))

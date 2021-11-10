@@ -1,0 +1,5 @@
+LICENSE
+*.md
+*.ipynb
+sarcastic_comments.py
+glove_vectors
