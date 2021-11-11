@@ -1,4 +1,4 @@
-# sarcastic-comment-detection
+# sarcastic-news-headlines-classification
 
 ## Introduction
 
