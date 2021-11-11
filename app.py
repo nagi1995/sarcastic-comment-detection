@@ -6,12 +6,11 @@ Created on Tue Nov  9 15:18:21 2021
 """
 
 # Reference: https://github.com/krishnaik06/Heroku-Demo/blob/master/app.py
+
 #%%
 
 import re
 import pickle
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.ensemble import RandomForestClassifier
 from flask import Flask, request, jsonify, render_template
 
 #%%
@@ -20,15 +19,10 @@ app = Flask(__name__)
 
 #%%
 
-
-#%%
 vectorizer = pickle.load(open("tfidf-vectorizer.pkl", 'rb'))
 model = pickle.load(open("rf-model.pkl", 'rb'))
 
-
 #%%
-
-
 
 def decontracted(phrase):
     # Reference: https://stackoverflow.com/a/47091490/6645883
@@ -66,18 +60,19 @@ def predict():
             x_test = vectorizer.transform([text])
             prediction = model.predict(x_test)
             prediction_text = "NOT SARCASTIC"
-            if prediction[0][1] >= .5:
+            if prediction[0] == 1:
                 prediction_text = "SARCASTIC"
             print("\n\n#############")
-            print("prediction_text:", prediction_text)
+            print("prediction_text:", x_test)
             print("#############\n\n")
         except Exception  as e:
                 print("error: ", e)
-        return render_template('index.html', prediction_text = "The sms is {0}.".format(prediction_text))
+        return render_template('index.html', prediction_text = "The news headline is {0}.".format(prediction_text))
     else:
         return render_template("index.html")
 
 #%%
+
 if __name__ == "__main__":
     app.run(debug = True)
 
